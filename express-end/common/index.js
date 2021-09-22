@@ -18,22 +18,19 @@ async function run(sql) {
     })
 }
 
-// const con = mysql.createConnection({ ...config })
-// function conConnect(con) {
-//     con.connect(err => {
-//         if (err) {
-//             console.error('error connecting: ' + err.stack)
-//             return
-//         }
-//         console.log('connected as id ' + con.threadId)
-//     })
-//     return con
-// }
-// function conEnd(con) {
-//     con.end()
-//     console.log('end connect id ' + con.threadId)
-// }
+pool.on('connection', (con) => {
+    console.log(con.threadId + ' connected')
+})
+
+pool.on('release', (con) => {
+    console.log(con.threadId + ' release')
+})
+
+function end() {
+    pool.end()
+}
 
 module.exports = {
-    run
+    run,
+    end
 }

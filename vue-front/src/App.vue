@@ -3,8 +3,17 @@
     <router-link to="/">Home</router-link>|
     <router-link to="/about">About</router-link>
   </div>
+  <button @click="end">End</button>
   <router-view />
 </template>
+
+<script lang="ts" setup>
+import axios from 'axios'
+
+const end = (): void => {
+  axios.get('/api/end')
+}
+</script>
 
 <style>
 #app {
