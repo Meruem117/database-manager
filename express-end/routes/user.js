@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
+const { getUser } = require('../controllers/user')
 
-/* GET users listing. */
-router.get('/get', function (req, res, next) {
-  res.send('respond with a resource')
+router.get('/', async (req, res) => {
+  const data = await getUser()
+  res.send(data)
 })
 
 module.exports = router
