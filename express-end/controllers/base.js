@@ -16,8 +16,14 @@ async function showTables() {
     return data
 }
 
+async function describeTable(table) {
+    const data = await db.run(sql.base.describeTable, [table])
+    return data
+}
+
 module.exports = {
     showDatabases,
     useDatabase,
-    showTables
+    showTables,
+    describeTable
 }

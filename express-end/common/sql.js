@@ -2,6 +2,7 @@ module.exports = {
     base: {
         showDatabases: 'show databases',
         useDatabase: 'use ??',
-        showTables: 'show tables'
+        showTables: 'show tables',
+        describeTable: 'describe ??'
     }
 }

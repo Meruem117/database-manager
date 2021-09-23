@@ -14,4 +14,10 @@ router.get('/:database', async (req, res, next) => {
     res.send(data)
 })
 
+router.get('/:database/:table', async (req, res, next) => {
+    const table = req.params['table']
+    const data = await con.describeTable(table)
+    res.send(data)
+})
+
 module.exports = router
