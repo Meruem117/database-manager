@@ -1,24 +1,23 @@
 const db = require('../common')
-const sql = require('../common/sql-map')
+const sql = require('../common/sql')
 
 async function showDatabases() {
-    const sql = 'show databases'
-    const data = await db.run(sql)
+    const data = await db.run(sql.base.showDatabases)
     return data
 }
 
-async function useDatabases() {
-    const sql = 'show databases'
-    const data = await db.run(sql)
-    return data
+async function useDatabase(database) {
+    await db.run(sql.base.useDatabase, [database])
+    return true
 }
 
 async function showTables() {
-    const sql = 'show databases'
-    const data = await db.run(sql)
+    const data = await db.run(sql.base.showTables)
     return data
 }
 
 module.exports = {
-    showDatabases
+    showDatabases,
+    useDatabase,
+    showTables
 }
