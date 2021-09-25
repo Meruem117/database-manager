@@ -4,7 +4,6 @@ const config = require('./config')
 const pool = mysql.createPool({ ...config })
 
 async function run(sql, values = undefined) {
-    // console.log(values)
     return new Promise((resolve, reject) => {
         pool.getConnection((err, con) => {
             // console.log('connected as id ' + con.threadId)
