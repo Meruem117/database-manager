@@ -1,8 +1,7 @@
 module.exports = {
-    base: {
-        showDatabases: 'show databases',
-        useDatabase: 'use ??',
-        showTables: 'show tables',
-        describeTable: 'describe ??'
-    }
+    showDatabases: 'show databases',
+    useDatabase: 'use ??',
+    showTables: 'show tables',
+    describeTable: 'describe ??',
+    select: 'select * from ??'
 }

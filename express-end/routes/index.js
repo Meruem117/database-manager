@@ -21,6 +21,12 @@ router.get('/:database/:table', async (req, res, next) => {
   res.send(data)
 })
 
+router.get('/:database/:table/select', async (req, res, next) => {
+  const table = req.params['table']
+  const data = await con.select(table)
+  res.send(data)
+})
+
 router.get('/end', (req, res, next) => {
   con.endPool()
   res.send('End Connection')
