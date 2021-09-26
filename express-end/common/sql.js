@@ -3,8 +3,8 @@ module.exports = {
     useDatabase: 'use ??',
     showTables: 'show tables',
     describeTable: 'describe ??',
-    selectData: 'select * from ??',
-    insertData: 'insert into ?? set ?',
-    updateData: 'update ?? set ? where ?',
-    deleteData: 'delete from ?? where ?'
+    selectRows: 'select * from ??',
+    insertRow: 'insert into ?? set ?',
+    updateRow: 'update ?? set ? where ?',
+    deleteRow: 'delete from ?? where ?'
 }

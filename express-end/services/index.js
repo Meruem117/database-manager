@@ -21,23 +21,23 @@ async function describeTable(table) {
     return data
 }
 
-async function selectData(table) {
-    const data = await con.run(sql.selectData, [table])
+async function selectRows(table) {
+    const data = await con.run(sql.selectRows, [table])
     return data
 }
 
-async function insertData(table, value = {}) {
-    const data = await con.run(sql.insertData, [table, value])
+async function insertRow(table, value = {}) {
+    const data = await con.run(sql.insertRow, [table, value])
     return data
 }
 
-async function updateData(table, value = {}, key = {}) {
-    const data = await con.run(sql.updateData, [table, value, key])
+async function updateRow(table, value = {}, key = {}) {
+    const data = await con.run(sql.updateRow, [table, value, key])
     return data
 }
 
-async function deleteData(table, key = {}) {
-    const data = await con.run(sql.deleteData, [table, key])
+async function deleteRow(table, key = {}) {
+    const data = await con.run(sql.deleteRow, [table, key])
     return data
 }
 
@@ -51,9 +51,9 @@ module.exports = {
     useDatabase,
     showTables,
     describeTable,
-    selectData,
-    insertData,
-    updateData,
-    deleteData,
+    selectRows,
+    insertRow,
+    updateRow,
+    deleteRow,
     endPool
 }
