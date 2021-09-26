@@ -27,23 +27,23 @@ async function selectRows(table) {
 }
 
 async function insertRow(table, value = {}) {
-    const data = await con.run(sql.insertRow, [table, value])
-    return data
+    const res = await con.run(sql.insertRow, [table, value])
+    return res
 }
 
 async function updateRow(table, value = {}, key = {}) {
-    const data = await con.run(sql.updateRow, [table, value, key])
-    return data
+    const res = await con.run(sql.updateRow, [table, value, key])
+    return res
 }
 
 async function deleteRow(table, key = {}) {
-    const data = await con.run(sql.deleteRow, [table, key])
-    return data
+    const res = await con.run(sql.deleteRow, [table, key])
+    return res
 }
 
 function endPool() {
     con.end()
-    return true
+    return
 }
 
 module.exports = {

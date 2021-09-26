@@ -17,32 +17,32 @@ router.get('/:database', async (req, res, next) => {
 
 router.get('/:database/:table', async (req, res, next) => {
   const table = req.params['table']
-  const structure = await con.describeTable(table)
+  const columns = await con.describeTable(table)
   const rows = await con.selectRows(table)
-  const data = { structure, rows }
+  const data = { columns, rows }
   res.send(data)
 })
 
 router.post('/:database/:table/insert', async (req, res, next) => {
   const table = req.params['table']
   const value = req.body
-  const data = await con.insertRow(table, value)
-  res.send(data)
+  const result = await con.insertRow(table, value)
+  res.send(result)
 })
 
 router.post('/:database/:table/update', async (req, res, next) => {
   const table = req.params['table']
   const value = req.body.value
   const key = req.body.key
-  const data = await con.updateRow(table, value, key)
-  res.send(data)
+  const result = await con.updateRow(table, value, key)
+  res.send(result)
 })
 
 router.post('/:database/:table/delete', async (req, res, next) => {
   const table = req.params['table']
   const key = req.body
-  const data = await con.deleteRow(table, key)
-  res.send(data)
+  const result = await con.deleteRow(table, key)
+  res.send(result)
 })
 
 router.get('/end', (req, res, next) => {
