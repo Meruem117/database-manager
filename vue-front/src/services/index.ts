@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { databaseListItem, tableListItem, tableItem, rowItem, feedback } from '../models'
+import { databaseListItem, tableListItem, tableItem, rowItem, feedback } from '@/models'
 
 export async function getDatabases(): Promise<databaseListItem[]> {
     const res = await axios.get('/api/')
