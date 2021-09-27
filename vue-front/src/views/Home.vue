@@ -31,16 +31,27 @@
     </el-select>
   </el-space>
   <div class="table">
-    <el-table :data="state.tableDetail.rows" border style="width: 100%;margin: 0 auto">
+    <el-table
+      :data="state.tableDetail.rows"
+      border
+      stripe
+      style="width:100%; margin: 0 auto"
+      max-height="650"
+    >
       <el-table-column
         v-for="item in state.tableDetail.columns"
         :key="item.Field"
         :prop="item.Field"
         :label="item.Field"
-        width="120"
+        :width="state.tableColumnWidth"
       />
-      <el-table-column fixed="right" label="Operations" width="120">
-        <template>
+      <el-table-column
+        v-if="state.selectedTable"
+        fixed="right"
+        label="Operations"
+        :width="state.tableColumnWidth"
+      >
+        <template #default>
           <el-button type="text" size="small">Detail</el-button>
           <el-button type="text" size="small">Edit</el-button>
         </template>
@@ -56,7 +67,8 @@ import { dataItem } from '@/models'
 
 interface stateItem extends dataItem {
   selectedDatabase: string,
-  selectedTable: string
+  selectedTable: string,
+  tableColumnWidth: number
 }
 
 const state: stateItem = reactive({
@@ -68,7 +80,8 @@ const state: stateItem = reactive({
   },
   feedback: {},
   selectedDatabase: '',
-  selectedTable: ''
+  selectedTable: '',
+  tableColumnWidth: 180
 })
 
 const handleDatabaseChange = (): void => {
@@ -80,6 +93,8 @@ const handleDatabaseChange = (): void => {
 const handleTableChange = (): void => {
   if (state.selectedDatabase && state.selectedTable) {
     getTableDetail(state.selectedDatabase, state.selectedTable)
+    const width = 1280 / (state.tableDetail.columns.length + 1)
+    state.tableColumnWidth = width > 180 ? width : 180
   }
 }
 
@@ -109,8 +124,8 @@ onMounted(() => {
 
 <style scoped>
 .table {
-  margin: 30px auto 0;
-  width: 80%;
   height: auto;
+  width: 80%;
+  margin: 30px auto 0;
 }
 </style>
