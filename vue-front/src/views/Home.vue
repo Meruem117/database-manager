@@ -49,11 +49,20 @@
         v-if="state.selectedTable"
         fixed="right"
         label="Operations"
-        :width="state.tableColumnWidth"
+        :width="state.tableColumnWidth > 240 ? state.tableColumnWidth : 240"
       >
         <template #default>
-          <el-button type="text" size="small">Detail</el-button>
-          <el-button type="text" size="small">Edit</el-button>
+          <el-row justify="start">
+            <el-col :span="8">
+              <el-button type="primary" size="small" plain>Edit</el-button>
+            </el-col>
+            <el-col :span="8">
+              <el-button type="danger" size="small" plain>Delete</el-button>
+            </el-col>
+            <el-col :span="8">
+              <el-button v-if="state.isEdit" type="info" size="small" plain>Cancel</el-button>
+            </el-col>
+          </el-row>
         </template>
       </el-table-column>
     </el-table>
@@ -68,7 +77,8 @@ import { dataItem } from '@/models'
 interface stateItem extends dataItem {
   selectedDatabase: string,
   selectedTable: string,
-  tableColumnWidth: number
+  tableColumnWidth: number,
+  isEdit: boolean
 }
 
 const state: stateItem = reactive({
@@ -81,7 +91,8 @@ const state: stateItem = reactive({
   feedback: {},
   selectedDatabase: '',
   selectedTable: '',
-  tableColumnWidth: 180
+  tableColumnWidth: 180,
+  isEdit: true
 })
 
 const handleDatabaseChange = (): void => {
@@ -119,7 +130,6 @@ const getTableDetail = (database: string, table: string): void => {
 onMounted(() => {
   getDatabases()
 })
-
 </script>
 
 <style scoped>
