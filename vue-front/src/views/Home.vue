@@ -38,6 +38,7 @@
         :prop="item.Field"
         :label="item.Field"
         :width="state.columnWidth"
+        style="height: 160px;"
       />
       <el-table-column
         v-if="state.selectedTable"
@@ -46,15 +47,15 @@
         :width="state.columnWidth > 240 ? state.columnWidth : 240"
       >
         <template #default>
-          <el-row justify="start">
+          <el-row justify="center">
             <el-col :span="8">
-              <el-button type="primary" size="small" plain>Edit</el-button>
+              <el-button type="primary" plain>Edit</el-button>
             </el-col>
             <el-col :span="8">
-              <el-button type="danger" size="small" plain>Delete</el-button>
+              <el-button type="danger" plain>Delete</el-button>
             </el-col>
             <el-col :span="8">
-              <el-button v-if="state.isEdit" type="info" size="small" plain>Cancel</el-button>
+              <el-button v-if="state.isEdit" type="info" plain>Cancel</el-button>
             </el-col>
           </el-row>
         </template>
@@ -84,9 +85,9 @@ const state: stateItem = reactive({
   feedback: {},
   selectedDatabase: '',
   selectedTable: '',
-  param: { start: 0, offset: 2 },
+  param: { start: 0, offset: 10 },
   columnWidth: 180,
-  isEdit: true
+  isEdit: false
 })
 
 const handleDatabaseChange = (): void => {
@@ -99,9 +100,12 @@ const handleTableChange = (): void => {
   const { selectedDatabase, selectedTable } = state
   if (selectedDatabase && selectedTable) {
     getTableColumns(selectedDatabase, selectedTable)
+      .then(() => {
+        console.log(selectedTable, state.columns)
+        const width = (document.body.clientWidth * 0.8) / (state.columns.length + 1)
+        state.columnWidth = width > 180 ? width : 180
+      })
     getTableRows(selectedDatabase, selectedTable, state.param)
-    const width = 1280 / (state.columns.length + 1)
-    state.columnWidth = width > 180 ? width : 180
   }
 }
 
@@ -117,7 +121,7 @@ const getTables = (database: string): void => {
     .catch(err => console.error(err))
 }
 
-const getTableColumns = (database: string, table: string): void => {
+const getTableColumns = async (database: string, table: string): Promise<void> => {
   service.getTableColumns(database, table)
     .then(res => state.columns = res)
     .catch(err => console.error(err))
