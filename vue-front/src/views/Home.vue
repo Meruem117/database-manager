@@ -43,10 +43,10 @@
         v-if="state.selectedTable"
         fixed="right"
         label="Operations"
-        :width="state.columnWidth > OPERATION_COLUMN_WIDTH ? state.columnWidth : OPERATION_COLUMN_WIDTH"
+        :width="OPERATION_COLUMN_WIDTH"
       >
         <template #default>
-          <el-row justify="center">
+          <el-row :gutter="5">
             <el-col :span="8">
               <el-button type="primary" plain>Edit</el-button>
             </el-col>
@@ -109,7 +109,7 @@ const handleTableChange = (): void => {
   if (selectedDatabase && selectedTable) {
     getTableColumns(selectedDatabase, selectedTable)
       .then(() => {
-        const width = (document.body.clientWidth * 0.8) / (state.columns.length + 1)
+        const width = (document.body.clientWidth * 0.8 - OPERATION_COLUMN_WIDTH) / state.columns.length
         state.columnWidth = width > COLUMN_WIDTH ? width : COLUMN_WIDTH
       })
     getTableRows(selectedDatabase, selectedTable, { start: START_ROW, offset: PAGE_SIZE })
