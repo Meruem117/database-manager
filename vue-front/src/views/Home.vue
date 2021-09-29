@@ -38,13 +38,12 @@
         :prop="item.Field"
         :label="item.Field"
         :width="state.columnWidth"
-        style="height: 160px;"
       />
       <el-table-column
         v-if="state.selectedTable"
         fixed="right"
         label="Operations"
-        :width="state.columnWidth > 240 ? state.columnWidth : 240"
+        :width="state.columnWidth > OPERATION_COLUMN_WIDTH ? state.columnWidth : OPERATION_COLUMN_WIDTH"
       >
         <template #default>
           <el-row justify="center">
@@ -61,6 +60,14 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <el-pagination
+      v-model:currentPage="state.currentPage"
+      :page-size="PAGE_SIZE"
+      layout="total, prev, pager, next"
+      :total="1000"
+      @current-change="handlePageChange"
+    />
   </div>
 </template>
 
@@ -68,12 +75,13 @@
 import { reactive, onMounted } from 'vue'
 import * as service from '@/services'
 import { dataItem, param } from '@/models'
+import { START_ROW, PAGE_SIZE, COLUMN_WIDTH, OPERATION_COLUMN_WIDTH } from '@/constant'
 
 interface stateItem extends dataItem {
   selectedDatabase: string,
   selectedTable: string,
-  param: param
   columnWidth: number,
+  currentPage: number,
   isEdit: boolean
 }
 
@@ -85,8 +93,8 @@ const state: stateItem = reactive({
   feedback: {},
   selectedDatabase: '',
   selectedTable: '',
-  param: { start: 0, offset: 10 },
-  columnWidth: 180,
+  currentPage: 1,
+  columnWidth: COLUMN_WIDTH,
   isEdit: false
 })
 
@@ -101,12 +109,19 @@ const handleTableChange = (): void => {
   if (selectedDatabase && selectedTable) {
     getTableColumns(selectedDatabase, selectedTable)
       .then(() => {
-        console.log(selectedTable, state.columns)
         const width = (document.body.clientWidth * 0.8) / (state.columns.length + 1)
-        state.columnWidth = width > 180 ? width : 180
+        state.columnWidth = width > COLUMN_WIDTH ? width : COLUMN_WIDTH
       })
-    getTableRows(selectedDatabase, selectedTable, state.param)
+    getTableRows(selectedDatabase, selectedTable, { start: START_ROW, offset: PAGE_SIZE })
   }
+}
+
+const handlePageChange = (): void => {
+  const param: param = {
+    start: (state.currentPage - 1) * PAGE_SIZE,
+    offset: PAGE_SIZE
+  }
+  getTableRows(state.selectedDatabase, state.selectedTable, param)
 }
 
 const getDatabases = (): void => {
