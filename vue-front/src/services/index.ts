@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { databaseListItem, tableListItem, tableItem, rowItem, feedback } from '@/models'
+import { databaseListItem, tableListItem, columnItem, rowItem, param, feedback } from '@/models'
 
 export async function getDatabases(): Promise<databaseListItem[]> {
     const res = await axios.get('/api/')
@@ -11,8 +11,13 @@ export async function getTables(database: string): Promise<tableListItem[]> {
     return res.data
 }
 
-export async function getTableDetail(database: string, table: string): Promise<tableItem> {
+export async function getTableColumns(database: string, table: string): Promise<columnItem[]> {
     const res = await axios.get(`/api/${database}/${table}`)
+    return res.data
+}
+
+export async function getTableRows(database: string, table: string, param: param): Promise<rowItem[]> {
+    const res = await axios.post(`/api/${database}/${table}/select`, param)
     return res.data
 }
 

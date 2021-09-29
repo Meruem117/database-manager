@@ -31,25 +31,19 @@
     </el-select>
   </el-space>
   <div class="table">
-    <el-table
-      :data="state.tableDetail.rows"
-      border
-      stripe
-      style="width:100%; margin: 0 auto"
-      max-height="650"
-    >
+    <el-table :data="state.rows" border stripe style="width:100%; margin: 0 auto" max-height="650">
       <el-table-column
-        v-for="item in state.tableDetail.columns"
+        v-for="item in state.columns"
         :key="item.Field"
         :prop="item.Field"
         :label="item.Field"
-        :width="state.tableColumnWidth"
+        :width="state.columnWidth"
       />
       <el-table-column
         v-if="state.selectedTable"
         fixed="right"
         label="Operations"
-        :width="state.tableColumnWidth > 240 ? state.tableColumnWidth : 240"
+        :width="state.columnWidth > 240 ? state.columnWidth : 240"
       >
         <template #default>
           <el-row justify="start">
@@ -72,26 +66,26 @@
 <script lang="ts" setup>
 import { reactive, onMounted } from 'vue'
 import * as service from '@/services'
-import { dataItem } from '@/models'
+import { dataItem, param } from '@/models'
 
 interface stateItem extends dataItem {
   selectedDatabase: string,
   selectedTable: string,
-  tableColumnWidth: number,
+  param: param
+  columnWidth: number,
   isEdit: boolean
 }
 
 const state: stateItem = reactive({
   databases: [],
   tables: [],
-  tableDetail: {
-    columns: [],
-    rows: []
-  },
+  columns: [],
+  rows: [],
   feedback: {},
   selectedDatabase: '',
   selectedTable: '',
-  tableColumnWidth: 180,
+  param: { start: 0, offset: 2 },
+  columnWidth: 180,
   isEdit: true
 })
 
@@ -102,10 +96,12 @@ const handleDatabaseChange = (): void => {
 }
 
 const handleTableChange = (): void => {
-  if (state.selectedDatabase && state.selectedTable) {
-    getTableDetail(state.selectedDatabase, state.selectedTable)
-    const width = 1280 / (state.tableDetail.columns.length + 1)
-    state.tableColumnWidth = width > 180 ? width : 180
+  const { selectedDatabase, selectedTable } = state
+  if (selectedDatabase && selectedTable) {
+    getTableColumns(selectedDatabase, selectedTable)
+    getTableRows(selectedDatabase, selectedTable, state.param)
+    const width = 1280 / (state.columns.length + 1)
+    state.columnWidth = width > 180 ? width : 180
   }
 }
 
@@ -121,9 +117,15 @@ const getTables = (database: string): void => {
     .catch(err => console.error(err))
 }
 
-const getTableDetail = (database: string, table: string): void => {
-  service.getTableDetail(database, table)
-    .then(res => state.tableDetail = res)
+const getTableColumns = (database: string, table: string): void => {
+  service.getTableColumns(database, table)
+    .then(res => state.columns = res)
+    .catch(err => console.error(err))
+}
+
+const getTableRows = (database: string, table: string, param: param): void => {
+  service.getTableRows(database, table, param)
+    .then(res => state.rows = res)
     .catch(err => console.error(err))
 }
 

@@ -6,7 +6,7 @@ export interface tableListItem {
     [key: string]: string
 }
 
-interface columnItem {
+export interface columnItem {
     Field: string,
     Type: string,
     Null: string,
@@ -19,9 +19,9 @@ export interface rowItem {
     [key: string]: string | number | null
 }
 
-export interface tableItem {
-    columns: columnItem[],
-    rows: rowItem[]
+export interface param {
+    start: number,
+    offset: number
 }
 
 export interface feedback {
@@ -38,6 +38,7 @@ export interface feedback {
 export interface dataItem {
     databases: databaseListItem[],
     tables: tableListItem[],
-    tableDetail: tableItem,
+    columns: columnItem[],
+    rows: rowItem[],
     feedback: feedback
 }
