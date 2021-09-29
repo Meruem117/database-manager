@@ -21,8 +21,8 @@ async function describeTable(table) {
     return data
 }
 
-async function selectRows(table) {
-    const data = await con.run(sql.selectRows, [table])
+async function selectRows(table, start = 0, offset = 10) {
+    const data = await con.run(sql.selectRows, [table, start, offset])
     return data
 }
 
