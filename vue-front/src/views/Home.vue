@@ -1,7 +1,7 @@
 <template>
   <h1>Home</h1>
-
   <el-space wrap :size="30">
+    <!-- select database -->
     <el-select
       key="database"
       v-model="state.selectedDatabase"
@@ -16,7 +16,7 @@
         :value="item.Database"
       />
     </el-select>
-
+    <!-- select table -->
     <el-select
       key="table"
       v-model="state.selectedTable"
@@ -32,7 +32,7 @@
       />
     </el-select>
   </el-space>
-
+  <!-- table -->
   <div class="table">
     <el-table :data="state.rows" border stripe style="width:100%; margin: 0 auto" max-height="650">
       <el-table-column
@@ -63,7 +63,7 @@
         </template>
       </el-table-column>
     </el-table>
-
+    <!-- pagination -->
     <el-pagination
       v-model:currentPage="state.currentPage"
       :page-size="PAGE_SIZE"
@@ -72,10 +72,9 @@
       @current-change="handlePageChange"
     />
   </div>
-
-  <div>
+  <!-- dialog -->
+  <div class="dialog">
     <el-button type="primary" @click="state.dialogVisible = true">Open</el-button>
-
     <el-dialog v-model="state.dialogVisible" title="Insert">
       <el-form :model="state.form">
         <el-form-item label="Promotion name" :label-width="COLUMN_WIDTH">
@@ -201,5 +200,10 @@ onMounted(() => {
   height: auto;
   width: 80%;
   margin: 30px auto 0;
+}
+.dialog {
+  width: 80%;
+  float: right;
+  margin-top: 30px;
 }
 </style>
