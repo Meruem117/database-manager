@@ -1,5 +1,6 @@
 <template>
   <h1>Home</h1>
+
   <el-space wrap :size="30">
     <el-select
       key="database"
@@ -15,6 +16,7 @@
         :value="item.Database"
       />
     </el-select>
+
     <el-select
       key="table"
       v-model="state.selectedTable"
@@ -30,6 +32,7 @@
       />
     </el-select>
   </el-space>
+
   <div class="table">
     <el-table :data="state.rows" border stripe style="width:100%; margin: 0 auto" max-height="650">
       <el-table-column
@@ -69,6 +72,24 @@
       @current-change="handlePageChange"
     />
   </div>
+
+  <div>
+    <el-button type="primary" @click="state.dialogVisible = true">Open</el-button>
+
+    <el-dialog v-model="state.dialogVisible" title="Insert">
+      <el-form :model="state.form">
+        <el-form-item label="Promotion name" :label-width="COLUMN_WIDTH">
+          <el-input v-model="state.form.name" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button plain @click="state.dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="state.dialogVisible = false">Confirm</el-button>
+        </span>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -82,7 +103,18 @@ interface stateItem extends dataItem {
   selectedTable: string,
   columnWidth: number,
   currentPage: number,
-  isEdit: boolean
+  isEdit: boolean,
+  dialogVisible: boolean,
+  form: {
+    name: '',
+    region: '',
+    date1: '',
+    date2: '',
+    delivery: false,
+    type: [],
+    resource: '',
+    desc: '',
+  }
 }
 
 const state: stateItem = reactive({
@@ -95,7 +127,18 @@ const state: stateItem = reactive({
   selectedTable: '',
   currentPage: 1,
   columnWidth: COLUMN_WIDTH,
-  isEdit: false
+  isEdit: false,
+  dialogVisible: false,
+  form: {
+    name: '',
+    region: '',
+    date1: '',
+    date2: '',
+    delivery: false,
+    type: [],
+    resource: '',
+    desc: '',
+  }
 })
 
 const handleDatabaseChange = (): void => {
