@@ -42,6 +42,7 @@
         :label="item.Field"
         :width="state.columnWidth"
       />
+      <!-- operations -->
       <el-table-column
         v-if="state.selectedTable"
         fixed="right"
@@ -63,31 +64,27 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- pagination -->
-    <el-pagination
-      v-model:currentPage="state.currentPage"
-      :page-size="PAGE_SIZE"
-      layout="total, prev, pager, next"
-      :total="1000"
-      @current-change="handlePageChange"
-    />
-  </div>
-  <!-- dialog -->
-  <div class="dialog">
-    <el-button type="primary" @click="state.dialogVisible = true">Open</el-button>
-    <el-dialog v-model="state.dialogVisible" title="Insert">
-      <el-form :model="state.form">
-        <el-form-item label="Promotion name" :label-width="COLUMN_WIDTH">
-          <el-input v-model="state.form.name" autocomplete="off" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button plain @click="state.dialogVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="state.dialogVisible = false">Confirm</el-button>
-        </span>
-      </template>
-    </el-dialog>
+    <!-- pannel -->
+    <div class="pannel">
+      <el-button round @click="handlePageChangePrev" :disabled="state.currentPage <= 1">Prev</el-button>
+      <p style="display: inline;margin: 0 8px;">第 {{ state.currentPage }} 页</p>
+      <el-button round @click="handlePageChangeNext" :disabled="state.rows.length < PAGE_SIZE">Next</el-button>
+      <el-button type="primary" @click="state.dialogVisible = true">Add</el-button>
+      <!-- dialog -->
+      <el-dialog v-model="state.dialogVisible" title="Insert">
+        <el-form :model="state.form">
+          <el-form-item label="Promotion name" :label-width="COLUMN_WIDTH">
+            <el-input v-model="state.form.name" autocomplete="off" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button plain @click="state.dialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="state.dialogVisible = false">Confirm</el-button>
+          </span>
+        </template>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -166,6 +163,18 @@ const handlePageChange = (): void => {
   getTableRows(state.selectedDatabase, state.selectedTable, param)
 }
 
+const handlePageChangePrev = (): void => {
+  state.currentPage--
+  console.log(state.currentPage)
+  handlePageChange()
+}
+
+const handlePageChangeNext = (): void => {
+  state.currentPage++
+  console.log(state.currentPage)
+  handlePageChange()
+}
+
 const getDatabases = (): void => {
   service.getDatabases()
     .then(res => state.databases = res)
@@ -201,9 +210,8 @@ onMounted(() => {
   width: 80%;
   margin: 30px auto 0;
 }
-.dialog {
-  width: 80%;
-  float: right;
-  margin-top: 30px;
+.pannel {
+  width: 100%;
+  margin: 30px auto 0;
 }
 </style>
