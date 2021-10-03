@@ -50,17 +50,9 @@
         :width="OPERATION_COLUMN_WIDTH"
       >
         <template #default>
-          <el-row :gutter="5">
-            <el-col :span="8">
-              <el-button type="primary" plain>Edit</el-button>
-            </el-col>
-            <el-col :span="8">
-              <el-button type="danger" plain>Delete</el-button>
-            </el-col>
-            <el-col :span="8">
-              <el-button v-if="state.isEdit" type="info" plain>Cancel</el-button>
-            </el-col>
-          </el-row>
+          <el-button type="primary" plain>Edit</el-button>
+          <el-button type="danger" plain>Delete</el-button>
+          <el-button v-if="state.isEdit" type="info" plain>Cancel</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -123,7 +115,7 @@ const state: stateItem = reactive({
   selectedTable: '',
   currentPage: 1,
   columnWidth: COLUMN_WIDTH,
-  isEdit: false,
+  isEdit: true,
   dialogVisible: false,
   form: {
     name: '',
