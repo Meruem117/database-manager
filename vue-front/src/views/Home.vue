@@ -200,10 +200,10 @@ onMounted(() => {
 .table {
   height: auto;
   width: 80%;
-  margin: 30px auto 0;
+  margin: 20px auto 0;
 }
 .pannel {
   width: 100%;
-  margin: 30px auto 0;
+  margin: 20px auto 0;
 }
 </style>
