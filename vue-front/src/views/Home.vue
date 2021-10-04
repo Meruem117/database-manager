@@ -64,9 +64,14 @@
       <el-button type="primary" @click="state.dialogVisible = true">Add</el-button>
       <!-- dialog -->
       <el-dialog v-model="state.dialogVisible" title="Insert">
-        <el-form :model="state.form">
-          <el-form-item label="Promotion name" :label-width="COLUMN_WIDTH">
-            <el-input v-model="state.form.name" autocomplete="off" />
+        <el-form :model="state.form" label-position="right">
+          <el-form-item
+            v-for="item in state.columns"
+            :key="item.Field"
+            :label="item.Field"
+            :label-width="COLUMN_WIDTH"
+          >
+            <el-input v-model="state.form[item.Field]" autocomplete="off" />
           </el-form-item>
         </el-form>
         <template #footer>
@@ -94,14 +99,7 @@ interface stateItem extends dataItem {
   isEdit: boolean,
   dialogVisible: boolean,
   form: {
-    name: '',
-    region: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
+    [key: string]: string | number | null
   }
 }
 
@@ -117,16 +115,7 @@ const state: stateItem = reactive({
   columnWidth: COLUMN_WIDTH,
   isEdit: true,
   dialogVisible: false,
-  form: {
-    name: '',
-    region: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
-  }
+  form: {}
 })
 
 const handleDatabaseChange = (): void => {
@@ -182,6 +171,7 @@ const getTables = (database: string): void => {
 const getTableColumns = async (database: string, table: string): Promise<void> => {
   service.getTableColumns(database, table)
     .then(res => state.columns = res)
+    .then(() => console.log(state.columns))
     .catch(err => console.error(err))
 }
 
