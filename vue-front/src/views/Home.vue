@@ -64,7 +64,7 @@
       <el-button type="primary" @click="state.dialogVisible = true">Add</el-button>
       <!-- dialog -->
       <el-dialog v-model="state.dialogVisible" title="Insert">
-        <el-form :model="state.form" label-position="right">
+        <el-form :model="state.form" :rules="state.formRules" ref="ruleForm" label-position="right">
           <el-form-item
             v-for="item in state.columns"
             :key="item.Field"
@@ -73,11 +73,14 @@
           >
             <el-input v-model="state.form[item.Field]" autocomplete="off" />
           </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')">Create</el-button>
+            <el-button @click="resetForm('ruleForm')">Reset</el-button>
+          </el-form-item>
         </el-form>
         <template #footer>
           <span class="dialog-footer">
             <el-button plain @click="state.dialogVisible = false">Cancel</el-button>
-            <el-button type="primary" @click="state.dialogVisible = false">Confirm</el-button>
           </span>
         </template>
       </el-dialog>
@@ -100,6 +103,21 @@ interface stateItem extends dataItem {
   dialogVisible: boolean,
   form: {
     [key: string]: string | number | null
+  },
+  formRules: {
+    name: [
+      {
+        required: true,
+        message: 'Please input Activity name',
+        trigger: 'blur',
+      },
+      {
+        min: 3,
+        max: 5,
+        message: 'Length should be 3 to 5',
+        trigger: 'blur',
+      },
+    ]
   }
 }
 
@@ -115,7 +133,22 @@ const state: stateItem = reactive({
   columnWidth: COLUMN_WIDTH,
   isEdit: true,
   dialogVisible: false,
-  form: {}
+  form: {},
+  formRules: {
+    name: [
+      {
+        required: true,
+        message: 'Please input Activity name',
+        trigger: 'blur',
+      },
+      {
+        min: 3,
+        max: 5,
+        message: 'Length should be 3 to 5',
+        trigger: 'blur',
+      },
+    ]
+  }
 })
 
 const handleDatabaseChange = (): void => {
@@ -154,6 +187,14 @@ const handlePageChangeNext = (): void => {
   state.currentPage++
   console.log(state.currentPage)
   handlePageChange()
+}
+
+const submitForm = (formName: string): void => {
+  console.log('submit', formName)
+}
+
+const resetForm = (formName: string): void => {
+  console.log('reset', formName)
 }
 
 const getDatabases = (): void => {
