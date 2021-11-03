@@ -19,7 +19,8 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const index = ref('/')
-const handleSelect = (key: string) => {
+
+const handleSelect = (key: string): void => {
     router.push(key)
 }
 </script>
