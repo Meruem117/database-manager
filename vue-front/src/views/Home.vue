@@ -2,53 +2,24 @@
   <h1>Home</h1>
   <el-space wrap :size="30">
     <!-- select database -->
-    <el-select
-      key="database"
-      v-model="state.selectedDatabase"
-      clearable
-      placeholder="Select Database"
-      @change="handleDatabaseChange"
-    >
-      <el-option
-        v-for="item in state.databases"
-        :key="item.Database"
-        :label="item.Database"
-        :value="item.Database"
-      />
+    <el-select key="database" v-model="state.selectedDatabase" clearable placeholder="Select Database"
+      @change="handleDatabaseChange">
+      <el-option v-for="item in state.databases" :key="item.Database" :label="item.Database" :value="item.Database" />
     </el-select>
     <!-- select table -->
-    <el-select
-      key="table"
-      v-model="state.selectedTable"
-      clearable
-      placeholder="Select Table"
-      @change="handleTableChange"
-    >
-      <el-option
-        v-for="item in state.tables"
-        :key="item[`Tables_in_${state.selectedDatabase}`]"
-        :label="item[`Tables_in_${state.selectedDatabase}`]"
-        :value="item[`Tables_in_${state.selectedDatabase}`]"
-      />
+    <el-select key="table" v-model="state.selectedTable" clearable placeholder="Select Table"
+      @change="handleTableChange">
+      <el-option v-for="item in state.tables" :key="item[`Tables_in_${state.selectedDatabase}`]"
+        :label="item[`Tables_in_${state.selectedDatabase}`]" :value="item[`Tables_in_${state.selectedDatabase}`]" />
     </el-select>
   </el-space>
   <!-- table -->
   <div class="table">
     <el-table :data="state.rows" border stripe style="width:100%; margin: 0 auto" max-height="650">
-      <el-table-column
-        v-for="item in state.columns"
-        :key="item.Field"
-        :prop="item.Field"
-        :label="item.Field"
-        :width="state.columnWidth"
-      />
+      <el-table-column v-for="item in state.columns" :key="item.Field" :prop="item.Field" :label="item.Field"
+        :width="state.columnWidth" />
       <!-- operations -->
-      <el-table-column
-        v-if="state.selectedTable"
-        fixed="right"
-        label="Operations"
-        :width="OPERATION_COLUMN_WIDTH"
-      >
+      <el-table-column v-if="state.selectedTable" fixed="right" label="Operations" :width="OPERATION_COLUMN_WIDTH">
         <template #default>
           <el-button type="primary" plain>Edit</el-button>
           <el-button type="danger" plain>Delete</el-button>
@@ -56,8 +27,8 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- pannel -->
-    <div class="pannel">
+    <!-- panel -->
+    <div class="panel">
       <el-button round @click="handlePageChangePrev" :disabled="state.currentPage <= 1">Prev</el-button>
       <p style="display: inline;margin: 0 8px;">第 {{ state.currentPage }} 页</p>
       <el-button round @click="handlePageChangeNext" :disabled="state.rows.length < PAGE_SIZE">Next</el-button>
@@ -65,12 +36,7 @@
       <!-- dialog -->
       <el-dialog v-model="state.dialogVisible" title="Insert">
         <el-form :model="state.form" :rules="state.formRules" ref="ruleForm" label-position="right">
-          <el-form-item
-            v-for="item in state.columns"
-            :key="item.Field"
-            :label="item.Field"
-            :label-width="COLUMN_WIDTH"
-          >
+          <el-form-item v-for="item in state.columns" :key="item.Field" :label="item.Field" :label-width="COLUMN_WIDTH">
             <el-input v-model="state.form[item.Field]" autocomplete="off" />
           </el-form-item>
           <el-form-item>
@@ -233,7 +199,8 @@ onMounted(() => {
   width: 80%;
   margin: 20px auto 0;
 }
-.pannel {
+
+.panel {
   width: 100%;
   margin: 20px auto 0;
 }
