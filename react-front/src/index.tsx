@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
-import Nav from './components/Nav'
 import Home from './views/Home'
 import About from './views/About'
 
@@ -27,7 +26,6 @@ const router = createBrowserRouter([
 
 root.render(
   <React.StrictMode>
-    <Nav />
     <RouterProvider router={router} />
   </React.StrictMode>
 )
