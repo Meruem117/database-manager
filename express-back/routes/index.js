@@ -23,7 +23,10 @@ router.get('/:database/:table', async (req, res, next) => {
 
 router.post('/:database/:table/select', async (req, res, next) => {
   const table = req.params['database'] + '.' + req.params['table']
-  const { start, offset } = req.body
+  const {
+    start,
+    offset
+  } = req.body
   const data = await con.selectRows(table, start, offset)
   res.send(data)
 })
