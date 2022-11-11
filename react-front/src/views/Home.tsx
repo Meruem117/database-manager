@@ -1,11 +1,18 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { Box, Typography } from '@mui/material'
 import { FormControl, InputLabel, Select, MenuItem, FormHelperText, SelectChangeEvent } from '@mui/material'
+import * as service from '../services'
 import Nav from '../components/Nav'
 
 export default function Home(): React.ReactElement {
   const [database, setDatabase] = useState<string>('')
   const [table, setTable] = useState<string>('')
+
+  useEffect(() => {
+    service.getDatabases().then(res => {
+      console.log(res)
+    })
+  }, [])
 
   const changeDatabase = (event: SelectChangeEvent): void => {
     setDatabase(event.target.value)

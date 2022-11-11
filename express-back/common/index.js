@@ -1,7 +1,9 @@
 const mysql = require('mysql')
 const config = require('./config')
 
-const pool = mysql.createPool({ ...config })
+const pool = mysql.createPool({
+    ...config
+})
 
 async function run(sql, values = undefined) {
     return new Promise((resolve, reject) => {
