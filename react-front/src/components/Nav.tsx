@@ -1,6 +1,4 @@
-import Box from '@mui/material/Box'
-import Tab from '@mui/material/Tab'
-import Tabs from '@mui/material/Tabs'
+import { Box, Tab, Tabs } from '@mui/material'
 
 export default function Nav(props: { active: string }) {
   return (
